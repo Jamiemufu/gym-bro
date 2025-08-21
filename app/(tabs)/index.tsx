@@ -1,5 +1,5 @@
-import { ImageBackground, SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
-import FeatureCard from "../components/FeatureCard";
+import FeatureCard from "@/components/FeatureCard";
+import { ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 
 // Use a gym/strength photo from Unsplash as the hero background
 const HERO = {

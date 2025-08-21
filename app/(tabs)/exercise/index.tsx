@@ -1,36 +1,73 @@
-import { db } from "@/db/db-init";
-import { exercisesTable } from "@/db/schema";
-import type { Exercise } from "@/types";
-import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import EmptyState from "@/components/EmptyState";
+import LoadingState from "@/components/LoadingState";
+import SearchBar from "@/components/SearchBar";
+import SectionHeader from "@/components/SectionHeader";
+import ExerciseCard from "@/components/exercise/ExerciseCard";
+import { useExercises } from "@/hooks/useExercises";
+import { exerciseGroupsToSections, filterExercisesByText, groupExercisesByGroup } from "@/utils/exerciseUtils";
+import { useNavigation } from "expo-router";
+import React, { useLayoutEffect, useMemo, useState } from "react";
+import { SectionList, StyleSheet, View } from "react-native";
 
 export default function ExerciseScreen() {
-  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [searchText, setSearchText] = useState("");
+  const navigation = useNavigation();
+  const { exercises, loading, error } = useExercises();
 
-  useEffect(() => {
-    db.select().from(exercisesTable).then(setExercises);
-  }, []);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: "Exercises",
+    });
+  }, [navigation]);
+
+  const sections = useMemo(() => {
+    const filteredExercises = filterExercisesByText(exercises, searchText);
+    const groups = groupExercisesByGroup(filteredExercises);
+    return exerciseGroupsToSections(groups);
+  }, [exercises, searchText]);
+
+  if (loading) {
+    return <LoadingState message="Loading exercises..." />;
+  }
+
+  if (error) {
+    return <EmptyState message={`Error: ${error}`} icon="alert-circle" />;
+  }
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={exercises}
+      <SearchBar
+        value={searchText}
+        onChangeText={setSearchText}
+        placeholder="Search exercises..."
+      />
+      
+      <SectionList
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
+        sections={sections}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.title}>{item.name}</Text>
-            <Text style={styles.desc}>{item.description}</Text>
-          </View>
+        renderItem={({ item }) => <ExerciseCard exercise={item} />}
+        renderSectionHeader={({ section: { title, data } }) => (
+          <SectionHeader title={title} count={data.length} />
         )}
-        ListEmptyComponent={<Text>No exercises yet</Text>}
+        ListEmptyComponent={
+          <EmptyState message="No exercises found" icon="barbell" />
+        }
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  item: { paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: "#eee" },
-  title: { fontWeight: "600", marginBottom: 4 },
-  desc: { color: "#666" },
+  container: {
+    flex: 1,
+  },
+  list: {
+    flex: 1,
+  },
+  listContent: {
+    paddingBottom: 40,
+  },
 });

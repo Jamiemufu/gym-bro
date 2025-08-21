@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import * as SQLite from 'expo-sqlite';
-import migrations from '../drizzle/migrations';
+import { useEffect, useState } from 'react';
 import { seedExercises } from '../db/seed/exercises';
+import migrations from '../drizzle/migrations';
 
 // Create the database connection
 export const db = drizzle(SQLite.openDatabaseSync('db') as any);

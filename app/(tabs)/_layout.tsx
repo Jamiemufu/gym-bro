@@ -36,7 +36,7 @@ export default function RootLayout() {
       />
 
       <Tabs.Screen
-        name="exercise/index"
+        name="exercise"
         options={{
           title: "Exercises",
           tabBarIcon: () => <Ionicons name="barbell-outline" size={24} color="black" />,
