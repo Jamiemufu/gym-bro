@@ -1,4 +1,4 @@
-import { ImageBackground, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ImageBackground, SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
 import FeatureCard from "../components/FeatureCard";
 
 // Use a gym/strength photo from Unsplash as the hero background
@@ -17,7 +17,7 @@ export default function Index() {
             <Text style={styles.heroSubtitle}>Train smart. Track progress. Look great.</Text>
           </View>
         </ImageBackground>
-        <View style={styles.content}>
+        <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <FeatureCard icon="calendar-outline" title="Plan Mesocycles" subtitle="Create structured training blocks" />
           <FeatureCard icon="barbell-outline" title="Log a workout" subtitle="Quickly record sets, reps & weight" />
           <FeatureCard icon="analytics-outline" title="Track progress" subtitle="Graphs & PR history" />
@@ -26,7 +26,7 @@ export default function Index() {
           <FeatureCard icon="list-outline" title="Custom exercises" subtitle="Create and save movements" />
           <FeatureCard icon="trending-up-outline" title="Auto progression" subtitle="Auto-adjust from lift history" />
           <FeatureCard icon="book-outline" title="Programs" subtitle="Browse curated plans" />
-        </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     height: 220,
     width: "100%",
     justifyContent: "flex-end",
+  },
+  scrollContainer: {
+    flex: 1,
   },
   heroImage: {},
   heroOverlay: {
@@ -69,13 +72,13 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
   },
   content: {
-    // take remaining space under the hero
-    flex: 1,
+    // content for the scroll view
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingTop: 30,
+    paddingBottom: 20, // add bottom padding for scrolling
   },
   contentBlock: {
     backgroundColor: "#fff",
