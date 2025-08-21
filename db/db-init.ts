@@ -1,14 +1,31 @@
-import { drizzle } from 'drizzle-orm/expo-sqlite';
-import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
-import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
-import * as SQLite from 'expo-sqlite';
-import migrations from '../drizzle/migrations';
-import { seedExercises } from './seed/exercises';
+import { db } from '../hooks/useAppInit';
+import { exercisesTable } from './schema';
 
-export const db = drizzle(SQLite.openDatabaseSync('db') as any);
+// Function to clear all exercises
+export const clearExercises = async () => {
+  try {
+    await db.delete(exercisesTable);
+    console.log('All exercises cleared from database');
+  } catch (error) {
+    console.error('Error clearing exercises:', error);
+    throw error;
+  }
+};
 
-export default function InitDB() {
-  useMigrations(db, migrations as any);
-  useDrizzleStudio(db as any);
-  seedExercises(db);
-}
+// Function to force reseed exercises (bypasses existing check)
+export const forceReseedExercises = async () => {
+  try {
+    // Import exercises data directly
+    const { seedExercises } = await import('./seed/exercises');
+    
+    await seedExercises(db);
+    
+    console.log('Exercises force reseeded successfully');
+  } catch (error) {
+    console.error('Error force reseeding exercises:', error);
+    throw error;
+  }
+};
+
+// Re-export the database connection from the app initialization hook
+export { db } from '../hooks/useAppInit';

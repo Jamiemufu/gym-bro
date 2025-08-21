@@ -76,7 +76,21 @@ const exercises: Exercise[] = [
 ];
 
 export const seedExercises = async (db: any) => {
-  for (const exercise of exercises) {
-    await db.insert(exercisesTable).values(exercise);
+  try {
+    // Check if exercises already exist
+    const existingExercises = await db.select().from(exercisesTable);
+    
+    if (existingExercises.length > 0) {
+      console.log('Exercises already seeded, skipping...');
+      return;
+    }
+
+    console.log('Seeding exercises...');
+    for (const exercise of exercises) {
+      await db.insert(exercisesTable).values(exercise);
+    }
+    console.log(`Seeded ${exercises.length} exercises successfully`);
+  } catch (error) {
+    console.error('Error seeding exercises:', error);
   }
 };
