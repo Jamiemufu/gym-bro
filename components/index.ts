@@ -8,3 +8,9 @@ export { default as SearchBar } from "./SearchBar";
 export { default as SectionHeader } from "./SectionHeader";
 export { default as LoadingState } from "./LoadingState";
 export { default as EmptyState } from "./EmptyState";
+
+// Form Components
+export { default as CreateExerciseHero } from "./forms/CreateExerciseHero";
+export { default as FormTextInput } from "./forms/FormTextInput";
+export { default as SelectionGrid } from "./forms/SelectionGrid";
+export { default as SubmitButton } from "./forms/SubmitButton";

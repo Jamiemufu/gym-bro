@@ -2,20 +2,6 @@ import type { Exercise } from "@/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 /**
- * Groups exercises by their group property
- */
-export function groupExercisesByGroup(exercises: Exercise[]): Record<string, Exercise[]> {
-  return exercises.reduce((acc, exercise) => {
-    const { group } = exercise;
-    if (!acc[group]) {
-      acc[group] = [];
-    }
-    acc[group].push(exercise);
-    return acc;
-  }, {} as Record<string, Exercise[]>);
-}
-
-/**
  * Filters exercises by search text (case-insensitive)
  */
 export function filterExercisesByText(exercises: Exercise[], searchText: string): Exercise[] {
@@ -30,10 +16,38 @@ export function filterExercisesByText(exercises: Exercise[], searchText: string)
 }
 
 /**
- * Converts grouped exercises to section list format
+ * Creates sections with custom exercises at the top, plus regular grouped sections
+ * Custom exercises appear both in the "Custom" section AND their respective muscle group sections
  */
-export function exerciseGroupsToSections(groups: Record<string, Exercise[]>) {
-  return Object.entries(groups).map(([title, data]) => ({ title, data }));
+export function createSectionsWithCustom(exercises: Exercise[]): { title: string; data: Exercise[] }[] {
+  const sections: { title: string; data: Exercise[] }[] = [];
+  
+  // Get all custom (user-created) exercises for the Custom section
+  const customExercises = exercises.filter(exercise => exercise.userCreated);
+  
+  // Add Custom section at the top if there are any custom exercises
+  if (customExercises.length > 0) {
+    sections.push({
+      title: "Custom",
+      data: customExercises
+    });
+  }
+  
+  // Group all exercises by muscle group (including custom ones in their respective groups)
+  const groups = exercises.reduce((acc, exercise) => {
+    const { group } = exercise;
+    if (!acc[group]) {
+      acc[group] = [];
+    }
+    acc[group].push(exercise);
+    return acc;
+  }, {} as Record<string, Exercise[]>);
+  
+  // Convert groups to sections and add them
+  const groupSections = Object.entries(groups).map(([title, data]) => ({ title, data }));
+  sections.push(...groupSections);
+  
+  return sections;
 }
 
 /**
@@ -41,6 +55,7 @@ export function exerciseGroupsToSections(groups: Record<string, Exercise[]>) {
  */
 export function getGroupIcon(group: string): keyof typeof Ionicons.glyphMap {
   const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
+    custom: 'person-add', // Special icon for custom exercises
     chest: 'body',
     back: 'fitness',
     legs: 'walk',

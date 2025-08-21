@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d2725a44-73b8-4317-a599-fc3adc5b21a2",
+  "id": "7d56e4da-a22a-4332-8486-c5da2938e3ea",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "users_table": {
-      "name": "users_table",
+    "exercises": {
+      "name": "exercises",
       "columns": {
         "id": {
           "name": "id",
@@ -21,30 +21,36 @@
           "notNull": true,
           "autoincrement": false
         },
-        "age": {
-          "name": "age",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "email": {
-          "name": "email",
+        "description": {
+          "name": "description",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "group": {
+          "name": "group",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "equipment": {
+          "name": "equipment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userCreated": {
+          "name": "userCreated",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
-      "indexes": {
-        "users_table_email_unique": {
-          "name": "users_table_email_unique",
-          "columns": [
-            "email"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},

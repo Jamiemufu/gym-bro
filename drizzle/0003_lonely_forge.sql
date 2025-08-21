@@ -1,1 +1,0 @@
-ALTER TABLE `exercises` ADD `equipment` text NOT NULL;

@@ -1,4 +1,4 @@
-import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { int, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const exercisesTable = sqliteTable("exercises", {
   id: int().primaryKey({ autoIncrement: true }),
@@ -6,4 +6,5 @@ export const exercisesTable = sqliteTable("exercises", {
   description: text().notNull(),
   group: text({ enum: ["shoulders", "chest", "back", "legs", "arms", "core"] }).notNull(),
   equipment: text({ enum: ["dumbbell", "barbell", "cable", "bodyweight", "rope"] }).notNull(),
+  userCreated: integer({mode: "boolean"}).notNull()
 });
