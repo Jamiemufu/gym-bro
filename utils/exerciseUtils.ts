@@ -1,4 +1,5 @@
 import type { Exercise } from "@/types";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 /**
  * Groups exercises by their group property
@@ -33,4 +34,34 @@ export function filterExercisesByText(exercises: Exercise[], searchText: string)
  */
 export function exerciseGroupsToSections(groups: Record<string, Exercise[]>) {
   return Object.entries(groups).map(([title, data]) => ({ title, data }));
+}
+
+/**
+ * Gets the appropriate icon for a muscle group
+ */
+export function getGroupIcon(group: string): keyof typeof Ionicons.glyphMap {
+  const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
+    chest: 'body',
+    back: 'fitness',
+    legs: 'walk',
+    shoulders: 'barbell',
+    arms: 'hand-left',
+    core: 'nuclear',
+    cardio: 'heart',
+  };
+  return icons[group.toLowerCase()] || 'barbell';
+}
+
+/**
+ * Gets the appropriate icon for equipment type
+ */
+export function getEquipmentIcon(equipment: string): keyof typeof Ionicons.glyphMap {
+  const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
+    barbell: 'barbell',
+    dumbbell: 'fitness',
+    cable: 'hardware-chip',
+    bodyweight: 'person',
+    rope: 'git-branch',
+  };
+  return icons[equipment.toLowerCase()] || 'barbell';
 }

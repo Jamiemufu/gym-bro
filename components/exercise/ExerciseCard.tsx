@@ -10,7 +10,7 @@ interface ExerciseCardProps {
   showEditButton?: boolean;
 }
 
-export default function ExerciseCard({ exercise, onPress, showEditButton = true }: ExerciseCardProps) {
+export default function ExerciseCard({ exercise, onPress, showEditButton = false }: ExerciseCardProps) {
   const router = useRouter();
 
   const handlePress = () => {

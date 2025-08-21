@@ -1,9 +1,9 @@
-import LoadingState from "@/components/LoadingState";
-import EmptyState from "@/components/EmptyState";
+import { DescriptionCard, EmptyState, ExerciseHero, ExerciseStats, ExerciseTips, LoadingState } from "@/components";
 import { useExercise } from "@/hooks/useExercises";
+import { HERO_IMAGE } from "@/utils/constants";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useLayoutEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function ExerciseIdScreen() {
   const params = useLocalSearchParams();
@@ -15,6 +15,7 @@ export default function ExerciseIdScreen() {
     navigation.setOptions({
       title: exercise.name,
       headerBackTitle: "Exercises",
+      headerTintColor: "#333",
     });
   }, [exercise, navigation]);
 
@@ -31,34 +32,29 @@ export default function ExerciseIdScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{exercise.name}</Text>
-      <Text style={styles.group}>Group: {exercise.group}</Text>
-      <Text style={styles.description}>{exercise.description}</Text>
-    </View>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <ExerciseHero 
+        exerciseName={exercise.name}
+        exerciseGroup={exercise.group}
+        backgroundImage={HERO_IMAGE}
+      />
+      
+      <View style={styles.contentSection}>
+        <DescriptionCard description={exercise.description} />
+        <ExerciseStats exercise={exercise} />
+        <ExerciseTips />
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+  },
+  contentSection: {
     padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 8,
-    textTransform: "capitalize",
-  },
-  group: {
-    fontSize: 16,
-    color: "#666",
-    marginBottom: 16,
-    textTransform: "capitalize",
-  },
-  description: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: "#333",
+    gap: 10,
   },
 });
