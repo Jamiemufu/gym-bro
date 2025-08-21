@@ -24,7 +24,7 @@ export default function RootLayout() {
         name="workout/index"
         options={{
           title: "Workout",
-          tabBarIcon: () => <Ionicons name="fitness-outline" size={24} color="black" />,
+          tabBarIcon: () => <Ionicons name="pulse-outline" size={24} color="black" />,
         }}
       />
       <Tabs.Screen
@@ -36,17 +36,18 @@ export default function RootLayout() {
       />
 
       <Tabs.Screen
+        name="progress/index"
+        options={{
+          title: "Progress",
+          tabBarIcon: () => <Ionicons name="trending-up-outline" size={24} color="black" />,
+        }}
+      />
+
+      <Tabs.Screen
         name="exercise"
         options={{
           title: "Exercises",
           tabBarIcon: () => <Ionicons name="barbell-outline" size={24} color="black" />,
-        }}
-      />
-      <Tabs.Screen
-        name="history/index"
-        options={{
-          title: "History",
-          tabBarIcon: () => <Ionicons name="clipboard-outline" size={24} color="black" />,
         }}
       />
     </Tabs>
