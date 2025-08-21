@@ -6,9 +6,11 @@ export default function RootLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarActiveTintColor: "#000",
         tabBarItemStyle: {
           paddingVertical: 10,
         },
+        animation: "shift",
       }}
     >
       <Tabs.Screen

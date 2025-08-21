@@ -22,8 +22,7 @@ export default function Index() {
           <FeatureCard icon="barbell-outline" title="Log a workout" subtitle="Quickly record sets, reps & weight" />
           <FeatureCard icon="analytics-outline" title="Track progress" subtitle="Graphs & PR history" />
           <FeatureCard icon="time-outline" title="View history" subtitle="Browse previous sessions" />
-
-          <FeatureCard icon="target-outline" title="Set goals" subtitle="Bulk • Cut • Maintain" />
+          <FeatureCard icon="disc-outline" title="Set goals" subtitle="Bulk • Cut • Maintain" />
           <FeatureCard icon="list-outline" title="Custom exercises" subtitle="Create and save movements" />
           <FeatureCard icon="trending-up-outline" title="Auto progression" subtitle="Auto-adjust from lift history" />
           <FeatureCard icon="book-outline" title="Programs" subtitle="Browse curated plans" />
