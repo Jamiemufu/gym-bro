@@ -10,14 +10,23 @@ export default function ExerciseIdScreen() {
   const navigation = useNavigation();
   const { exercise, loading, error } = useExercise(params.id);
 
+  // Set initial header options immediately to prevent [id] showing
   useLayoutEffect(() => {
-    if (!exercise) return;
     navigation.setOptions({
-      title: exercise.name,
-      headerBackTitle: "Exercises",
+      title: "Exercise",
+      headerBackTitle: "Exercises", 
       headerTintColor: "#333",
     });
-  }, [exercise, navigation]);
+  }, [navigation]);
+
+  // Update title when exercise loads
+  useLayoutEffect(() => {
+    if (exercise?.name) {
+      navigation.setOptions({
+        title: exercise.name,
+      });
+    }
+  }, [exercise?.name, navigation]);
 
   if (loading) {
     return <LoadingState message="Loading exercise..." />;

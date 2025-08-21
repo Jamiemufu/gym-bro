@@ -1,30 +1,9 @@
-import { 
-  CreateExerciseHero, 
-  FormTextInput, 
-  LoadingState, 
-  SelectionGrid, 
-  SubmitButton 
-} from "@/components";
+import { CreateExerciseHero, FormTextInput, LoadingState, SelectionGrid, SubmitButton } from "@/components";
 import { useCreateExercise } from "@/hooks/useExercises";
-import { 
-  EQUIPMENT_TYPES, 
-  MUSCLE_GROUPS, 
-  type ExerciseFormData,
-  transformFormDataForSubmission,
-  validateExerciseForm 
-} from "@/utils";
+import { EQUIPMENT_TYPES, MUSCLE_GROUPS, transformFormDataForSubmission, validateExerciseForm, type ExerciseFormData } from "@/utils";
 import { useNavigation, useRouter } from "expo-router";
 import React, { useLayoutEffect, useState } from "react";
-import {
-  Alert,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View
-} from "react-native";
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 
 export default function CreateExerciseScreen() {
   const navigation = useNavigation();
