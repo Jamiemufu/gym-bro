@@ -36,8 +36,8 @@ export const lightTheme: Theme = {
 
 export const darkTheme: Theme = {
   colors: {
-    background: '#000000',
-    surface: '#111111',
+    background: '#111111',
+    surface: '#000000',
     primary: '#ffffff',
     text: '#ffffff',
     textSecondary: '#cccccc',
@@ -48,6 +48,6 @@ export const darkTheme: Theme = {
     icon: '#cccccc',
     buttonBackground: '#ffffff',
     buttonText: '#000000',
-    cardBackground: '#1a1a1a',
+    cardBackground: '#000000',
   },
 };

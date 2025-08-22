@@ -45,7 +45,7 @@ export default function SelectionGrid<T extends string>({
               style={[
                 styles.selectionText,
                 { color: theme.colors.textSecondary },
-                selectedValue === option && styles.selectionTextActive,
+                selectedValue === option && { color: theme.colors.buttonText }
               ]}
             >
               {option}
