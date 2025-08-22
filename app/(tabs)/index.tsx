@@ -1,4 +1,5 @@
 import FeatureCard from "@/components/FeatureCard";
+import { useTheme } from "@/contexts/ThemeContext";
 import { ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 
 // Use a gym/strength photo from Unsplash as the hero background
@@ -7,9 +8,11 @@ const HERO = {
 };
 
 export default function Index() {
+  const { theme } = useTheme();
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
         <ImageBackground source={HERO} resizeMode="cover" style={styles.hero} imageStyle={styles.heroImage} blurRadius={2}>
           <View style={styles.heroOverlay} />
           <View style={styles.heroContent}>

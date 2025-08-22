@@ -3,25 +3,31 @@ import LoadingState from "@/components/LoadingState";
 import SearchBar from "@/components/SearchBar";
 import SectionHeader from "@/components/SectionHeader";
 import ExerciseCard from "@/components/exercise/ExerciseCard";
+import { useTheme } from "@/contexts/ThemeContext";
 import { useExercises } from "@/hooks/useExercises";
-import { filterExercisesByText, createSectionsWithCustom } from "@/utils/exerciseUtils";
+import { createSectionsWithCustom, filterExercisesByText } from "@/utils/exerciseUtils";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
 import React, { useLayoutEffect, useMemo, useState } from "react";
 import { Pressable, SectionList, StyleSheet, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 export default function ExerciseScreen() {
   const [searchText, setSearchText] = useState("");
   const navigation = useNavigation();
   const router = useRouter();
   const { exercises, loading, error } = useExercises();
+  const { theme } = useTheme();
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       title: "Exercises",
+      headerStyle: {
+        backgroundColor: theme.colors.background,
+      },
+      headerTintColor: theme.colors.text,
     });
-  }, [navigation]);
+  }, [navigation, theme]);
 
   const sections = useMemo(() => {
     const filteredExercises = filterExercisesByText(exercises, searchText);
@@ -37,7 +43,7 @@ export default function ExerciseScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <SearchBar
         value={searchText}
         onChangeText={setSearchText}
@@ -45,11 +51,11 @@ export default function ExerciseScreen() {
       />
       
       <Pressable 
-        style={styles.createButton}
+        style={[styles.createButton, { backgroundColor: theme.colors.buttonBackground }]}
         onPress={() => router.push("/exercise/create")}
       >
-        <Ionicons name="add-circle" size={20} color="#fff" />
-        <Text style={styles.createButtonText}>Create Exercise</Text>
+        <Ionicons name="add-circle" size={20} color={theme.colors.buttonText} />
+        <Text style={[styles.createButtonText, { color: theme.colors.buttonText }]}>Create Exercise</Text>
       </Pressable>
       
       <SectionList
@@ -79,7 +85,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   createButton: {
-    backgroundColor: "#333",
     marginHorizontal: 16,
     marginVertical: 12,
     paddingVertical: 14,

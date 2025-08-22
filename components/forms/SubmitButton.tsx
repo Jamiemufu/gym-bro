@@ -1,3 +1,4 @@
+import { useTheme } from "@/contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
@@ -15,21 +16,26 @@ export default function SubmitButton({
   iconName = "checkmark-circle",
   disabled = false
 }: SubmitButtonProps) {
+  const { theme } = useTheme();
+
   return (
     <Pressable 
-      style={[styles.submitButton, disabled && styles.submitButtonDisabled]} 
+      style={[
+        styles.submitButton, 
+        { backgroundColor: theme.colors.primary },
+        disabled && { backgroundColor: theme.colors.textSecondary }
+      ]} 
       onPress={onPress}
       disabled={disabled}
     >
-      <Ionicons name={iconName} size={20} color="#fff" />
-      <Text style={styles.submitButtonText}>{title}</Text>
+      <Ionicons name={iconName} size={20} color={theme.colors.background} />
+      <Text style={[styles.submitButtonText, { color: theme.colors.background }]}>{title}</Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   submitButton: {
-    backgroundColor: "#333",
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 12,
@@ -39,11 +45,7 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 20,
   },
-  submitButtonDisabled: {
-    backgroundColor: "#999",
-  },
   submitButtonText: {
-    color: "#fff",
     fontSize: 16,
     fontWeight: "600",
   },

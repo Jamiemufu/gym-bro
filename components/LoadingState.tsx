@@ -1,3 +1,4 @@
+import { useTheme } from "@/contexts/ThemeContext";
 import React from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
@@ -7,10 +8,12 @@ interface LoadingStateProps {
 }
 
 export default function LoadingState({ message = "Loading...", showSpinner = true }: LoadingStateProps) {
+  const { theme } = useTheme();
+
   return (
     <View style={styles.container}>
-      {showSpinner && <ActivityIndicator size="large" color="#666" style={styles.spinner} />}
-      <Text style={styles.text}>{message}</Text>
+      {showSpinner && <ActivityIndicator size="large" color={theme.colors.primary} style={styles.spinner} />}
+      <Text style={[styles.text, { color: theme.colors.textSecondary }]}>{message}</Text>
     </View>
   );
 }
@@ -26,7 +29,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   text: {
-    color: "#666",
     fontSize: 16,
   },
 });

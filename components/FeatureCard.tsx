@@ -1,3 +1,4 @@
+import { useTheme } from "@/contexts/ThemeContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { GestureResponderEvent, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -11,22 +12,37 @@ type Props = {
   onPress?: (e: GestureResponderEvent) => void;
 };
 
-export default function FeatureCard({ title, subtitle, icon, iconColor = "#333", iconSize = 20, onPress }: Props) {
+export default function FeatureCard({ title, subtitle, icon, iconColor, iconSize = 20, onPress }: Props) {
+  const { theme } = useTheme();
+  
   return (
     <TouchableOpacity activeOpacity={0.85} onPress={onPress} style={styles.touch}>
-      <View style={styles.card}>
+      <View style={[styles.card, { backgroundColor: theme.colors.cardBackground, borderColor: theme.colors.border }]}>
         {/* Icon row */}
-        <View style={styles.iconRow}>{icon ? <Ionicons name={icon as any} size={iconSize} color={iconColor} style={styles.icon} /> : null}</View>
+        <View style={styles.iconRow}>
+          {icon ? (
+            <Ionicons 
+              name={icon as any} 
+              size={iconSize} 
+              color={iconColor || theme.colors.primary} 
+              style={styles.icon} 
+            />
+          ) : null}
+        </View>
 
         {/* Title row */}
         <View style={styles.titleRow}>
-          <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+          <Text style={[styles.title, { color: theme.colors.text }]} numberOfLines={2} ellipsizeMode="tail">
             {title}
           </Text>
         </View>
 
         {/* Subtitle / content row */}
-        {subtitle ? <Text style={styles.subtitleFull}>{subtitle}</Text> : null}
+        {subtitle ? (
+          <Text style={[styles.subtitleFull, { color: theme.colors.textSecondary }]}>
+            {subtitle}
+          </Text>
+        ) : null}
       </View>
     </TouchableOpacity>
   );
@@ -38,14 +54,12 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   card: {
-    backgroundColor: "#fff",
     borderRadius: 12,
     paddingVertical: 16,
     paddingHorizontal: 14,
     minHeight: 110,
     justifyContent: "flex-start",
     borderWidth: 1,
-    borderColor: "#f0f0f0",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.06,
@@ -77,16 +91,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    color: "#111",
     fontWeight: "600",
   },
   subtitle: {
     fontSize: 12,
-    color: "#666",
     marginTop: 6,
   },
   subtitleFull: {
     fontSize: 12,
-    color: "#666",
   },
 });

@@ -1,4 +1,5 @@
 import type { Exercise } from "@/types";
+import { useTheme } from "@/contexts/ThemeContext";
 import { getEquipmentIcon, getGroupIcon } from "@/utils/exerciseUtils";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
@@ -9,17 +10,25 @@ interface ExerciseStatsProps {
 }
 
 export default function ExerciseStats({ exercise }: ExerciseStatsProps) {
+  const { theme } = useTheme();
+
   return (
     <View style={styles.statsContainer}>
-      <View style={styles.statCard}>
-        <Ionicons name={getGroupIcon(exercise.group)} size={28} color="#333" />
-        <Text style={styles.statLabel}>Muscle Group</Text>
-        <Text style={styles.statValue}>{exercise.group}</Text>
+      <View style={[styles.statCard, { 
+        backgroundColor: theme.colors.surface, 
+        borderColor: theme.colors.border 
+      }]}>
+        <Ionicons name={getGroupIcon(exercise.group)} size={28} color={theme.colors.primary} />
+        <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>Muscle Group</Text>
+        <Text style={[styles.statValue, { color: theme.colors.text }]}>{exercise.group}</Text>
       </View>
-      <View style={styles.statCard}>
-        <Ionicons name={getEquipmentIcon(exercise.equipment)} size={28} color="#333" />
-        <Text style={styles.statLabel}>Equipment</Text>
-        <Text style={styles.statValue}>{exercise.equipment}</Text>
+      <View style={[styles.statCard, { 
+        backgroundColor: theme.colors.surface, 
+        borderColor: theme.colors.border 
+      }]}>
+        <Ionicons name={getEquipmentIcon(exercise.equipment)} size={28} color={theme.colors.primary} />
+        <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>Equipment</Text>
+        <Text style={[styles.statValue, { color: theme.colors.text }]}>{exercise.equipment}</Text>
       </View>
     </View>
   );
@@ -33,23 +42,19 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#fff',
     borderRadius: 8,
     padding: 20,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#e9ecef',
   },
   statLabel: {
     fontSize: 12,
-    color: '#666',
     marginTop: 8,
     textAlign: 'center',
   },
   statValue: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
     marginTop: 4,
     textTransform: 'capitalize',
     textAlign: 'center',

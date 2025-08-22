@@ -1,3 +1,4 @@
+import { useTheme } from "@/contexts/ThemeContext";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -16,9 +17,11 @@ export default function SelectionGrid<T extends string>({
   selectedValue, 
   onValueChange 
 }: SelectionGridProps<T>) {
+  const { theme } = useTheme();
+
   return (
     <View style={styles.inputGroup}>
-      <Text style={styles.label}>
+      <Text style={[styles.label, { color: theme.colors.text }]}>
         {label} {required && "*"}
       </Text>
       <View style={styles.selectionGrid}>
@@ -27,13 +30,21 @@ export default function SelectionGrid<T extends string>({
             key={option}
             style={[
               styles.selectionItem,
-              selectedValue === option && styles.selectionItemActive,
+              {
+                borderColor: theme.colors.border,
+                backgroundColor: theme.colors.surface,
+              },
+              selectedValue === option && {
+                backgroundColor: theme.colors.primary,
+                borderColor: theme.colors.primary,
+              },
             ]}
             onPress={() => onValueChange(option)}
           >
             <Text
               style={[
                 styles.selectionText,
+                { color: theme.colors.textSecondary },
                 selectedValue === option && styles.selectionTextActive,
               ]}
             >
@@ -53,7 +64,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
     marginBottom: 4,
   },
   selectionGrid: {
@@ -66,17 +76,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: "#e0e0e0",
-    backgroundColor: "#f8f9fa",
-  },
-  selectionItemActive: {
-    backgroundColor: "#333",
-    borderColor: "#333",
   },
   selectionText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#666",
     textTransform: "capitalize",
   },
   selectionTextActive: {

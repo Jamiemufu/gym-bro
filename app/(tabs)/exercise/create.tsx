@@ -1,4 +1,5 @@
 import { CreateExerciseHero, FormTextInput, LoadingState, SelectionGrid, SubmitButton } from "@/components";
+import { useTheme } from "@/contexts/ThemeContext";
 import { useCreateExercise } from "@/hooks/useExercises";
 import { EQUIPMENT_TYPES, MUSCLE_GROUPS, transformFormDataForSubmission, validateExerciseForm, type ExerciseFormData } from "@/utils";
 import { useNavigation, useRouter } from "expo-router";
@@ -9,6 +10,7 @@ export default function CreateExerciseScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const { createExercise, loading: isSubmitting } = useCreateExercise();
+  const { theme } = useTheme();
   const [formData, setFormData] = useState<ExerciseFormData>({
     name: "",
     description: "",
@@ -20,9 +22,12 @@ export default function CreateExerciseScreen() {
     navigation.setOptions({
       title: "Create Exercise",
       headerBackTitle: "Exercises",
-      headerTintColor: "#333",
+      headerStyle: {
+        backgroundColor: theme.colors.background,
+      },
+      headerTintColor: theme.colors.text,
     });
-  }, [navigation]);
+  }, [navigation, theme]);
 
   const handleSubmit = async () => {
     // Validate form using utility function
@@ -53,9 +58,9 @@ export default function CreateExerciseScreen() {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <KeyboardAvoidingView style={[styles.container, { backgroundColor: theme.colors.background }]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           <CreateExerciseHero />
 
           <View style={styles.formSection}>
@@ -78,7 +83,6 @@ export default function CreateExerciseScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   scrollView: {
     flex: 1,

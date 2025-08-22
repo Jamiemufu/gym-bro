@@ -1,3 +1,4 @@
+import { useTheme } from "@/contexts/ThemeContext";
 import { useDeleteExercise } from "@/hooks/useExercises";
 import type { Exercise } from "@/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -19,6 +20,7 @@ export default function ExerciseCard({
   showDeleteButton = false 
 }: ExerciseCardProps) {
   const router = useRouter();
+  const { theme } = useTheme();
   const { deleteExercise, loading: isDeleting } = useDeleteExercise();
 
   const handlePress = () => {
@@ -59,21 +61,21 @@ export default function ExerciseCard({
   };
 
   return (
-    <Pressable style={styles.item} onPress={handlePress} disabled={isDeleting}>
+    <Pressable style={[styles.item, { backgroundColor: theme.colors.background, borderBottomColor: theme.colors.border }]} onPress={handlePress} disabled={isDeleting}>
       <View style={styles.row}>
         <View style={styles.content}>
           <View style={styles.titleRow}>
-            <Ionicons name="barbell" size={24} color="#666" style={styles.icon} />
-            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+            <Ionicons name="barbell" size={24} color={theme.colors.icon} style={styles.icon} />
+            <Text style={[styles.title, { color: theme.colors.text }]} numberOfLines={1} ellipsizeMode="tail">
               {exercise.name}
             </Text>
           </View>
-          <Text style={styles.desc}>{exercise.description}</Text>
+          <Text style={[styles.desc, { color: theme.colors.textSecondary }]}>{exercise.description}</Text>
         </View>
         <View style={styles.actions}>
           {showEditButton && (
             <Pressable onPress={handleEditPress} style={styles.actionButton}>
-              <Ionicons name="create-outline" size={24} color="#999" />
+              <Ionicons name="create-outline" size={24} color={theme.colors.icon} />
             </Pressable>
           )}
           {showDeleteButton && (
@@ -85,7 +87,7 @@ export default function ExerciseCard({
               <Ionicons 
                 name="trash-outline" 
                 size={24} 
-                color={isDeleting ? "#ccc" : "#e74c3c"} 
+                color={isDeleting ? theme.colors.border : theme.colors.destructive} 
               />
             </Pressable>
           )}
@@ -100,8 +102,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-    backgroundColor: "#fff",
   },
   row: {
     flexDirection: "row",
@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
   },
   desc: {
-    color: "#666",
   },
   actions: {
     flexDirection: "row",

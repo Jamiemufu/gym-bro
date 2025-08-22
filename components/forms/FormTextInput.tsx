@@ -1,3 +1,4 @@
+import { useTheme } from "@/contexts/ThemeContext";
 import React from "react";
 import { StyleSheet, Text, TextInput, TextInputProps, View } from "react-native";
 
@@ -14,18 +15,25 @@ export default function FormTextInput({
   style,
   ...textInputProps 
 }: FormTextInputProps) {
+  const { theme } = useTheme();
+
   return (
     <View style={styles.inputGroup}>
-      <Text style={styles.label}>
+      <Text style={[styles.label, { color: theme.colors.text }]}>
         {label} {required && "*"}
       </Text>
       <TextInput
         style={[
           styles.textInput,
+          {
+            borderColor: theme.colors.border,
+            backgroundColor: theme.colors.surface,
+            color: theme.colors.text,
+          },
           isTextArea && styles.textArea,
           style
         ]}
-        placeholderTextColor="#999"
+        placeholderTextColor={theme.colors.textSecondary}
         {...textInputProps}
         {...(isTextArea && {
           multiline: true,
@@ -45,16 +53,13 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
     marginBottom: 4,
   },
   textInput: {
     borderWidth: 1,
-    borderColor: "#e0e0e0",
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    backgroundColor: "#f8f9fa",
   },
   textArea: {
     height: 100,
