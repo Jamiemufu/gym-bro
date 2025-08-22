@@ -24,19 +24,6 @@ export default function ExerciseIdScreen() {
     });
   }, [navigation, exercise, theme]);
 
-  // Update title when exercise loads
-  useLayoutEffect(() => {
-    if (exercise?.name) {
-      navigation.setOptions({
-        title: exercise.name,
-        headerStyle: {
-          backgroundColor: theme.colors.background,
-        },
-        headerTintColor: theme.colors.text,
-      });
-    }
-  }, [exercise?.name, navigation, theme]);
-
   if (loading) {
     return <LoadingState message="Loading exercise..." />;
   }
