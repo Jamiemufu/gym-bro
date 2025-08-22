@@ -15,14 +15,14 @@ export default function ExerciseIdScreen() {
   // Set initial header options immediately to prevent [id] showing
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Exercise",
-      headerBackTitle: "Exercises", 
+      title: exercise?.name,
+      headerBackTitle: "Exercises",
       headerStyle: {
         backgroundColor: theme.colors.surface,
       },
       headerTintColor: theme.colors.text,
     });
-  }, [navigation, theme]);
+  }, [navigation, exercise, theme]);
 
   // Update title when exercise loads
   useLayoutEffect(() => {
